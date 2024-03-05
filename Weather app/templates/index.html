@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Weather App using Flask in Python</title>
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+</head>
+<body>	
+	<div class="container">
+	    <br><br><br>
+		<div class="row"><h2>Weather App using Flask in Python</h2></div>
+		<br>
+		<div class="row">		   
+			<p>Get weather details of any city around the world.</p>		   
+		</div>
+		<div class="row">						
+			{% block content %}	                		
+				<form action="{{ url_for("index")}}" method="post">
+				<div class="form-group">
+				<label for="cityName">City Name:</label>
+				<input type="text" id="cityName" name="cityName" value="{{cityName}}" placeholder="City Name">
+				<button class="submit">Find</button>
+				{% if error is defined and error %}
+					<br><br><span class="alert alert-danger">Error: Please enter valid city name.</span></br>
+				{% endif %}
+				</div>				
+			{% endblock %}
+			{% if data is defined and data %}
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Coordinate</th>
+						<th>Weather</th>
+						<th>Temperature</th>
+						<th>Pressure</th>
+						<th>Humidity</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="bg-info">{{data.coord.lon }} {{data.coord.lat}}</td>
+						<td class="bg-success">{{data.weather[0].main}}</td>
+						<td class="bg-danger">{{"%.2f" % (data.main.temp - 273.15)}} С</td>
+						<td class="bg-warning">{{data.main.pressure}}</td>
+						<td class="bg-primary">{{data.main.humidity}}</td>
+					</tr>
+				</tbody>
+			</table>
+			{% endif %}
+		</div>
+	</div>
+</body>
+</html>
